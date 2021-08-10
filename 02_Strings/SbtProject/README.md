@@ -1,8 +1,4 @@
-# sbt project compiled with Scala 3
+# Chapter 2: Strings
 
-### Usage
-
-This is a normal sbt project. You can compile code with `sbt compile`, run it with `sbt run`, and `sbt console` will start a Scala 3 REPL.
-
-For more information on the sbt-dotty plugin, see the
-[dotty-example-project](https://github.com/lampepfl/dotty-example-project/blob/master/README.md).
+These are the source code examples for 
+Chapter 2 of the [Second Edition of the Scala Cookbook](https://www.amazon.com/Scala-Cookbook-Object-Oriented-Functional-Programming-dp-1492051543/dp/1492051543).
