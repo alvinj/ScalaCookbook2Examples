@@ -2,7 +2,7 @@ package r00_intro
 
 val hello = "Hello, world"
 
-@main def intro0 = 
+@main def intro = 
     val s = "foo bar baz"
     assert(s.count(_ == 'a')     == 2)
     assert(s.dropRight(2)        == "foo bar b")

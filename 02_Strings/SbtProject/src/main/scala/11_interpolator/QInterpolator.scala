@@ -2,7 +2,6 @@ package r11_interp_q
 
 import com.alvinalexander.simpletest.SimpleTest.*
 
-
 // this demonstrates a first step in the process of creating `Q`.
 // in this example Q is not an interpolator, but a Q object with 
 // an apply method (factory method, which works like a constructor).
