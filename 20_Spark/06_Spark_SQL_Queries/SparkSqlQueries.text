@@ -1,0 +1,122 @@
+# Using Spark SQL Queries Against Multiple Files
+
+head -3 movies.csv
+    movieId,title,genres
+    1,Toy Story (1995),Adventure|Animation|Children|Comedy|Fantasy
+    2,Jumanji (1995),Adventure|Children|Fantasy
+
+head -3 ratings.csv
+    userId,movieId,rating,timestamp
+    1,296,5.0,1147880044
+    1,306,3.5,1147868817
+
+head -3 tags.csv
+    userId,movieId,tag,timestamp
+    3,260,classic,1439472355
+    3,260,sci-fi,1439472256
+
+// paste these into the REPL with ":paste"
+val moviesDf = spark.read
+                    .option("header", "true")
+                    .option("inferSchema", "true")
+                    .csv("movies.csv")
+val ratingsDf = spark.read
+                     .option("header", "true")
+                     .option("inferSchema", "true")
+                     .csv("ratings.csv")
+val tagsDf = spark.read
+                  .option("header", "true")
+                  .option("inferSchema", "true")
+                  .csv("tags.csv")
+
+moviesDf.createOrReplaceTempView("movies")
+ratingsDf.createOrReplaceTempView("ratings")
+tagsDf.createOrReplaceTempView("tags")
+
+
+val query = """
+    select * from movies, ratings 
+    where movies.movieId == ratings.movieId 
+    and rating == 5.0
+"""
+
+spark.sql(query).limit(4).show
+// Without the `limit`, that query will return over 3.6 million rows, 
+// but with the `limit`, the output looks like this:
++-------+--------------------+----------------+------+-------+------+----------+
+|movieId|               title|          genres|userId|movieId|rating| timestamp|
++-------+--------------------+----------------+------+-------+------+----------+
+|    296| Pulp Fiction (1994)|Comedy|Crime|Dra|     1|    296|   5.0|1147880044|
+|    307|Three Colors: Blu...|           Drama|     1|    307|   5.0|1147868828|
+|    665|  Underground (1995)|Comedy|Drama|War|     1|    665|   5.0|1147878820|
+|   1237|Seventh Seal, The...|           Drama|     1|   1237|   5.0|1147868839|
++-------+--------------------+----------------+------+-------+------+----------+
+
+
+val query = """
+    select distinct(m.title), r.rating, m.genres
+    from movies m, ratings r
+    where m.movieId == r.movieId 
+    and m.genres like '%Comedy%Romance%'
+    and r.rating == 5.0
+    order by m.title"""
+
+spark.sql(query).show
+    +--------------------+------+--------------------+
+    |               title|rating|              genres|
+    +--------------------+------+--------------------+
+    |(500) Days of Sum...|   5.0|Comedy|Drama|Romance|
+    | (Girl)Friend (2018)|   5.0|      Comedy|Romance|
+    |           10 (1979)|   5.0|      Comedy|Romance|
+    |10 Items or Less ...|   5.0|Comedy|Drama|Romance|
+    output continues ...
+
+
+val query = """
+    select m.title, count(1) as the_count
+    from movies m, ratings r
+    where m.movieId == r.movieId 
+    and m.genres like '%Comedy%Romance%'
+    and r.rating == 5.0
+    group by m.title
+    order by the_count desc
+"""
+
+// using 'false' in 'show' tells spark to print the full column widths
+spark.sql(query).show(100, false)
+    +------------------------------------------------------+---------+
+    |title                                                 |the_count|
+    +------------------------------------------------------+---------+
+    |Forrest Gump (1994)                                   |25918    |
+    |Princess Bride, The (1987)                            |13311    |
+    |Amelie (Fabuleux destin d'Amélie Poulain, Le) (2001)  |10395    |
+    |Life Is Beautiful (La Vita è bella) (1997)            |8466     |
+    (the output continues ...)
+
+
+
+## Discussion
+
+moviesDf.createOrReplaceTempView("movies")
+spark.catalog.dropTempView("movies")
+
+
+### Handling timestamps
+
+// from_unixtime
+val query = """
+    select userId,movieId,tag,from_unixtime(timestamp) as time
+    from tags
+    limit 3
+"""
+
+spark.sql(query).show
+    +------+-------+--------------------+-------------------+
+    |userId|movieId|                 tag|               time|
+    +------+-------+--------------------+-------------------+
+    |     3|    260|             classic|2015-08-13 07:25:55|
+    |     3|    260|              sci-fi|2015-08-13 07:24:16|
+    |     4|   1732|         dark comedy|2019-11-16 15:33:18|
+    +------+-------+--------------------+-------------------+
+
+

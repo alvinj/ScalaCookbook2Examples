@@ -1,0 +1,112 @@
+# Using Spark Like a Database with DataFrames
+
+## Solution
+
+// val data = spark.range(90,100)   // Dataset[Long] = [id: bigint]
+
+val nums = Array.range(1, 10)     // Array[Int] = Array(1,2,3,4,5,6,7,8,9)
+val rdd = sc.parallelize(nums)    // RDD[Int]
+
+val df = rdd.toDF("num")          // org.apache.spark.sql.DataFrame
+
+df.printSchema
+    root
+     |-- num: integer (nullable = false)
+
+df.show(2)
+df.columns
+df.describe("num").show
+
+df.select('num).show(2)
+df.select('num).where("num > 6").show
+
+df.select('num)
+  .where("num > 6")
+  .orderBy(col("num").desc)
+  .show
+
+df.select('num)
+df.select(col("num"))
+df.select(column("num"))
+df.select($"num")
+df.select(expr("num"))
+
+
+## Discussion
+
+### Explicitly defining the schema
+
+import org.apache.spark.sql.Row
+
+val rdd = sc.parallelize(
+    Array(
+        Row(1L, 0L, "zero",  "cero",   "zéro"),
+        Row(2L, 1L, "one",   "uno",    "un"),
+        Row(3L, 2L, "two",   "dos",    "deux"),
+        Row(4L, 3L, "three", "tres",   "trois"),
+        Row(5L, 4L, "four",  "cuatro", "quatre")
+    )
+)
+
+import org.apache.spark.sql.types._
+
+// 'schema' has the type org.apache.spark.sql.types.StructType
+val schema = StructType(
+    Array(
+        StructField("id",     LongType,   false),   // not nullable
+        StructField("value",  LongType,   false),   // not nullable
+        StructField("name",   StringType, true),    // nullable (English)
+        StructField("nombre", StringType, true),    // nullable (Spanish)
+        StructField("nom",    StringType, true)     // nullable (French)
+    )
+)
+
+val df = spark.createDataFrame(rdd, schema)
+df.printSchema
+
+
+### Querying the DataFrame
+
+df.select(\'id, 'name, 'nombre)
+  .limit(2)
+  .show
+
+df.where("value > 1").show(2)
+
+df.select('value, 'name, 'nombre, 'nom)
+  .where("id > 1")
+  .where("id < 4")
+  .show
+
+
+df.where('id > 1)
+  .orderBy('name)
+  .show
+
+df.select('name, 'nombre, 'nom)
+  .where("name = 'two'")
+  .show
+
+df.filter('nom.like("tro%")).show
+
+val withReplacement = false
+val fraction = 0.2
+val seed = 31
+
+df.sample(withReplacement, fraction, seed).show
+
+
+### select and selectExpr
+
+df.select(expr("value")).show
+df.select(expr("value"), expr("value")).show
+
+df.selectExpr("value").show(2)
+df.selectExpr("avg(value)").show
+df.selectExpr("count(distinct(value))").show
+df.selectExpr("count(distinct(nombre))").show
+
+
+
+
+

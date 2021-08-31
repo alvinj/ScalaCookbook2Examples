@@ -1,0 +1,72 @@
+## Solution
+
+val fileRdd = sc.textFile("Gettysburg-Address.txt")
+
+val counts = fileRdd.map(_.replaceAll("[.,]", ""))
+                    .map(_.replace("—", " "))
+                    .flatMap(line => line.split(" "))
+                    .map(word => (word, 1))
+                    .reduceByKey(_ + _)
+                    .sortBy(_._2)
+                    .collect
+
+counts.foreach(println)
+    //[data omitted here]
+    //(here,8)
+    //(we,8)
+    //(to,8)
+    //(the,9)
+    //(that,13)
+
+
+## Methods to read text files into an RDD
+ 
+textFile("/foo/file.txt")                  // read a file, using the default
+                                           // number of partitions
+textFile("/foo/file.txt", 8)               // same, but with 8 partitions
+textFile("/foo/bar.txt", "/foo/baz.txt")   // read multiple files
+textFile("/foo/ba*.txt")                   // read multiple files
+textFile("/foo/*")                         // read all files in 'foo'
+textFile("/a/1.txt", "/b/2.txt")           // multiple files in different
+                                           // directories
+textFile("hdfs://.../myfile.csv")          // use a Hadoop URL
+textFile("s3a://.../myfile.csv")           // use an Amazon S3 URL
+
+val rdd = sc.wholeTextFiles("Gettysburg-Address.txt")
+rdd.foreach(t => println(s"${t._1} | ${t._2.take(15)}"))
+
+
+## Saving an RDD to disk
+
+myRdd.saveAsTextFile("/tmp/MyRddOutput")
+
+
+
+## Reading more complicated text file formats
+
+val fileRdd = spark.sparkContext.textFile("/etc/passwd")
+
+case class PasswordRecord (
+    username: String,
+    password: String,
+    userId: Int,
+    groupId: Int,
+    comment: String,
+    homeDirectory: String,
+    shell: String
+)
+
+val rdd = fileRdd
+    .filter(! _.startsWith("#"))
+    .map { line =>
+        val row = line.split(":")
+        PasswordRecord(
+            row(0), row(1), row(2).toInt, row(3).toInt, row(4), row(5), row(6)
+        )
+    }
+
+rdd.take(3)
+
+
+
+

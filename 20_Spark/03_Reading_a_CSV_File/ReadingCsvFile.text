@@ -1,0 +1,57 @@
+## Solution
+
+The following example demonstrates those steps, using a file named _TomHanksMoviesNoHeader.csv_, which has these contents:
+
+....
+1995, Toy Story,         8.3
+2000, Cast Away,         7.8
+2006, The Da Vinci Code, 6.6
+2012, Cloud Atlas,       7.4
+1994, Forrest Gump,      8.8
+....
+
+
+### Create a case class to model the file data
+
+case class Movie(year: Int, name: String, rating: Double)
+
+
+### Read the file
+
+val fileRdd = sc.textFile("TomHanksMoviesNoHeader.csv")
+
+
+### Create an RDD by mapping each row to the case class
+
+val movies = fileRdd.map{ row =>
+    val fields = row.split(",").map(_.trim)
+    Movie(fields(0).toInt, fields(1), fields(2).toDouble)
+}
+
+
+### Work with the data as desired
+
+Now you can work with the `movies` RDD as desired, using the transformation and action methods demonstrated in the previous recipes:
+
+:type movies
+
+movies.first
+movies.take(2)
+movies.filter(_.rating > 7).filter(_.year > 2000).collect
+
+
+
+## Discussion
+
+### Working with a CSV file without using a case class
+
+// RDD[String]
+val fileRdd = sc.textFile("TomHanksMoviesNoHeader.csv")
+
+// movies: RDD[Array[String]]
+val movies = rdd.map(row => row.split(",")
+                .map(field => field.trim))
+
+movies.take(2)
+movies.filter(row => row(0).toInt > 2000).collect
+

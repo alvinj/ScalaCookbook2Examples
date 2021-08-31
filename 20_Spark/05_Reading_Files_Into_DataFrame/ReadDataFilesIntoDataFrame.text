@@ -1,0 +1,88 @@
+# Reading Data Files Into a Spark DataFrame
+
+## Solution
+
+// a file named TomHanksMoviesNoHeader.csv
+
+    1995, Toy Story,         8.3
+    2000, Cast Away,         7.8
+    2006, The Da Vinci Code, 6.6
+    2012, Cloud Atlas,       7.4
+    1994, Forrest Gump,      8.8
+
+
+import org.apache.spark.sql.types._
+
+// syntax option 1
+val schema = StructType(
+    Array(
+        StructField("year",  IntegerType, false),
+        StructField("name",  StringType, false),
+        StructField("rating", DoubleType, false)
+    )
+)
+
+// syntax option 2
+val schema = new StructType()
+      .add("year", IntegerType, false)
+      .add("name", StringType, false)
+      .add("rating", DoubleType, false)
+
+
+// read the file into a `DataFrame`
+val df = spark.read
+              .format("csv")
+              .schema(schema)
+              .option("delimiter", ",")
+              .load("TomHanksMoviesNoHeader.csv")
+
+
+df.printSchema
+df.show(2)
+df.select('year, 'name, 'rating).limit(2).show
+df.where('year > 1998).where('rating > 7.5).show
+df.where('rating > 7.5).orderBy('rating.desc).show
+df.filter('name.like("%T%")).show
+
+
+## Discussion
+
+// When reading a CSV file you can specify the options as a `Map`
+val df = spark.read
+              .options(
+                  Map(
+                      "header" -> "true",
+                      "inferSchema" -> "true",
+                      "delimiter" -> ","
+                  )
+              )
+              .csv("TomHanksMoviesNoHeader.csv")
+
+
+### Writing a DataFrame to a file
+
+df.write
+  .option("header","true")
+  .csv("DataFrameResults")
+
+
+### Creating a SQL view on a DataFrame
+
+val df = spark.read
+              .format("csv")
+              .schema(schema)
+              .option("delimiter", ",")
+              .load("TomHanksMoviesNoHeader.csv")
+df.createOrReplaceTempView("movies")
+
+val query = "select * from movies where rating > 7.5 order by rating desc"
+spark.sql(query).show
+    +----+-------------+------+
+    |year|         name|rating|
+    +----+-------------+------+
+    |1994| Forrest Gump|   8.8|
+    |1995|    Toy Story|   8.3|
+    |2000|    Cast Away|   7.8|
+    +----+-------------+------+
+
+

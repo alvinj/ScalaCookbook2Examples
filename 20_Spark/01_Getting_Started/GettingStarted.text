@@ -1,0 +1,54 @@
+// example Spark commands shown in 20.1
+
+val nums = Array.range(0, 100)
+
+val rdd = spark.sparkContext.parallelize(nums)
+
+rdd.count                      // Long = 100
+rdd.first                      // Int = 0
+rdd.min                        // Int = 0
+rdd.max                        // Int = 99
+rdd.take(3)                    // Array[Int] = Array(0, 1, 2)
+rdd.take(2).foreach(println)   // prints 0 and 1 on separate lines
+
+// “sample” methods return random values from the RDD
+rdd.sample(false, 0.05).collect   // Array[Int] = Array(0, 16, 22, 27, 60, 73)
+rdd.takeSample(false, 5)          // Array[Int] = Array(35, 65, 31, 27, 1)
+
+rdd.mean                          // Double = 49.5
+rdd.stdev                         // Double = 28.866070047722115
+rdd.getNumPartitions              // Int = 8
+
+rdd.stats                         // StatCounter = (count: 100, mean: 49.500000,
+                                  // stdev: 28.866070, max: 99.000000, 
+                                  // min: 0.000000)
+
+
+rdd.map(_ + 5).filter(_ < 8)
+rdd.filter(_ > 10).filter(_ < 20)
+
+rdd.map(_ + 5).filter(_ < 8).collect
+rdd.filter(_ > 10).filter(_ < 20).collect
+
+
+
+## The ‘spark’ object and spark context (‘sc’)
+
+val nums = Array.range(0, 100)
+val rdd = spark.sparkContext.parallelize(nums)
+
+:type spark
+:type spark.sparkContext
+
+val rdd = spark.sparkContext.parallelize(nums)
+val rdd = sc.parallelize(nums)
+
+val rdd = spark.sparkContext.parallelize(nums, 20)
+rdd.getNumPartitions   // Int = 20
+
+
+
+
+
+
+
