@@ -1,0 +1,33 @@
+#!/bin/sh
+
+# you can use this shell script to create an initial
+# sbt project directory structure, including the two
+# main files that are initially needed.
+
+mkdir -p src/{main,test}/{java,resources,scala}
+mkdir project
+
+# create an initial build.sbt file
+echo 'name := "MyProject"
+version := "0.1"
+scalaVersion := "3.0.1"
+
+// libraryDependencies ++= Seq(
+//     "org.scalatest" %% "scalatest" % "3.2.3" % "test"
+// )
+
+scalacOptions ++= Seq(
+    "-deprecation",
+    "-explain",
+    "-explain-types",
+    "-new-syntax",
+    "-unchecked",
+    "-Xfatal-warnings",
+    "-Xmigration"
+)
+' > build.sbt
+
+# create a project/build.properties file with the desired sbt version
+echo 'sbt.version=1.5.5' > project/build.properties
+
+

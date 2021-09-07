@@ -1,0 +1,1 @@
+This example is not included in the Scala Cookbook, but it does relate to the GraalVM example in Chapter 21. I added it here so you can see how to include native-image options in the build.sbt file. The code is also simpler than the Sbtmkdirs example.
