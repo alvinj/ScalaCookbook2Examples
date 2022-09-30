@@ -1,0 +1,6 @@
+addSbtPlugin("org.scalameta"     % "sbt-scalafmt"       % "2.4.6")
+addSbtPlugin("org.scala-js"      % "sbt-scalajs"        % "1.11.0")
+addSbtPlugin("org.scala-js"      % "sbt-jsdependencies" % "1.0.2")
+addSbtPlugin("org.scalameta"     % "sbt-native-image"   % "0.3.1")
+addSbtPlugin("com.typesafe.play" % "sbt-plugin"         % "2.8.16")
+addSbtPlugin("com.eed3si9n"      % "sbt-assembly"       % "1.1.1")

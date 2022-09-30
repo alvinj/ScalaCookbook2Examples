@@ -7,10 +7,10 @@ package hello
 import org.scalajs.dom
 import dom.document
 
-@main def hello1() = 
-    val parNode = document.createElement("p")
-    val textNode = document.createTextNode("Hello, world")
-    parNode.appendChild(textNode)
-    document.body.appendChild(parNode)
-    println("foo")
-    System.err.println("bar")
+@main def hello1() =
+  val parNode  = document.createElement("p")
+  val textNode = document.createTextNode("Hello, world")
+  parNode.appendChild(textNode)
+  document.body.appendChild(parNode)
+  println("foo")
+  System.err.println("bar")

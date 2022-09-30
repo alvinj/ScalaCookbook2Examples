@@ -21,7 +21,7 @@ access.log*
 Scala.js/
 bin/
 target/
-project/
+project/target
 build/
 .cache
 .cache-main
