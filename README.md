@@ -1,11 +1,20 @@
-# Examples for the Second Edition of the Scala Cookbook
-
-Hi, this is Alvin Alexander, and this repository contains the
-source code examples for the [Second Edition of the Scala
-Cookbook](https://www.amazon.com/Scala-Cookbook-Object-Oriented-Functional-Programming-dp-1492051543/dp/1492051543), which was released in August, 2021.
+# 《Scala cookbook》代码清单
 
 
-All the best,  
-Al  
-https://alvinalexander.com
+本代码库包含的是《Scala CookBook2》一书的中文版《Scala CookBook2》的代码清单。对原书的代码清单感兴趣的同学，可以直接点击本仓库的上游代码库进行查阅，本仓库提供的是本书中文版译者维护的版本，相对于上游的代码库有以下的不同：
 
+- 组织上以多模块，基于章节的形式进行。
+- 代码通过scalfix进行了检查和改写。
+- 代码通过scalafmt插件进行了对应的自动格式化。
+
+## 勘误和贡献
+
+本书的相关勘误、疑问读者可以通过issue进行，对于代码清单本身的一些修改，请通过Pull Request进行。
+
+## 免责声明
+
+由于本书出版、印刷的固有流程，所以您手上的图书可能不包含有最新的代码清单，但是你可以持续访问最新的在线版本的代码清单。
+
+## 其他
+
+QQ群：892402908。

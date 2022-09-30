@@ -1,0 +1,8 @@
+To use this example, `cd` into this directory, and start the REPL with the `scala` command.
+
+You may (probably will) need to recompile the code first, like this:
+
+```
+scalac Repl.scala
+```
+
