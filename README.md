@@ -8,4 +8,3 @@ Cookbook](https://www.amazon.com/Scala-Cookbook-Object-Oriented-Functional-Progr
 All the best,  
 Al  
 https://alvinalexander.com
-
