@@ -1,6 +1,5 @@
 // package xtra
 
-
 // These are some examples I created for the
 // 1st Edition of the Scala Cookbook. They may also
 // be a good starting point for working with CSV files.

@@ -58,6 +58,13 @@ lazy val ScalaCookbook2Examples = (project in file("."))
     `SimpleTest`
   )
 
+
+lazy val fix: Project => Project =
+    _.settings(
+      semanticdbEnabled := true, // enable SemanticDB
+      semanticdbVersion := scalafixSemanticdb.revision
+    )
+    
 lazy val common =
   scalacOptions ++= Seq(
     "-deprecation",     // emit warning and location for usages of deprecated APIs
@@ -76,14 +83,19 @@ lazy val common =
 lazy val `chapter1` = (project in file("01_CommandLineTasks"))
   .enablePlugins(ScalafmtPlugin)
   .dependsOn(`SimpleTest`)
+  .configure(fix)
 
 lazy val `chapter2` = (project in file("02_Strings"))
   .enablePlugins(ScalafmtPlugin)
   .dependsOn(`SimpleTest`)
+  .configure(fix)
+
 
 lazy val `chapter3` = (project in file("03_NumbersAndDates"))
   .enablePlugins(ScalafmtPlugin)
   .dependsOn(`SimpleTest`)
+  .configure(fix)
+
 
 lazy val `chapter4` = (project in file("04_ControlStructures"))
   .enablePlugins(ScalafmtPlugin)
@@ -91,6 +103,7 @@ lazy val `chapter4` = (project in file("04_ControlStructures"))
     common
   )
   .dependsOn(`SimpleTest`)
+  .configure(fix)
 
 lazy val `chapter5` = (project in file("05_Classes"))
   .enablePlugins(ScalafmtPlugin)
@@ -98,6 +111,7 @@ lazy val `chapter5` = (project in file("05_Classes"))
     common
   )
   .dependsOn(`SimpleTest`)
+  .configure(fix)
 
 lazy val `chapter6` = (project in file("06_TraitsAndEnums"))
   .enablePlugins(ScalafmtPlugin)
@@ -105,10 +119,12 @@ lazy val `chapter6` = (project in file("06_TraitsAndEnums"))
     common
   )
   .dependsOn(`SimpleTest`)
+  .configure(fix)
 
 lazy val `chapter7` = (project in file("07_Objects"))
   .enablePlugins(ScalafmtPlugin)
   .dependsOn(`SimpleTest`)
+  .configure(fix)
 
 lazy val `chapter8` = (project in file("08_Methods"))
   .enablePlugins(ScalafmtPlugin)
@@ -116,10 +132,12 @@ lazy val `chapter8` = (project in file("08_Methods"))
     common
   )
   .dependsOn(`SimpleTest`)
+  .configure(fix)
 
 lazy val `chapter9` = (project in file("09_Packaging"))
   .enablePlugins(ScalafmtPlugin)
   .dependsOn(`SimpleTest`)
+  .configure(fix)
 
 lazy val `chapter10` = (project in file("10_FP"))
   .enablePlugins(ScalafmtPlugin)
@@ -128,22 +146,27 @@ lazy val `chapter10` = (project in file("10_FP"))
 lazy val `chapter11` = (project in file("11_Collections_Intro"))
   .enablePlugins(ScalafmtPlugin)
   .dependsOn(`SimpleTest`)
+  .configure(fix)
 
 lazy val `chapter12` = (project in file("12_Common_Sequence_Classes"))
   .enablePlugins(ScalafmtPlugin)
   .dependsOn(`SimpleTest`)
+  .configure(fix)
 
 lazy val `chapter13` = (project in file("13_Common_Sequence_Methods"))
   .enablePlugins(ScalafmtPlugin)
   .dependsOn(`SimpleTest`)
+  .configure(fix)
 
 lazy val `chapter14` = (project in file("14_Maps"))
   .enablePlugins(ScalafmtPlugin)
   .dependsOn(`SimpleTest`)
+  .configure(fix)
 
 lazy val `chapter15` = (project in file("15_Tuple_Range_Set_Stack_Queue"))
   .enablePlugins(ScalafmtPlugin)
   .dependsOn(`SimpleTest`)
+  .configure(fix)
 
 lazy val `chapter16` = (project in file("./16_Files_Processes"))
   .enablePlugins(ScalafmtPlugin)
@@ -151,6 +174,7 @@ lazy val `chapter16` = (project in file("./16_Files_Processes"))
     common
   )
   .dependsOn(`SimpleTest`)
+  .configure(fix)
 
 lazy val `chapter17-4` = (project in file("17_sbt/04_compiling_running"))
   .enablePlugins(ScalafmtPlugin)
@@ -165,7 +189,8 @@ lazy val `chapter17-4` = (project in file("17_sbt/04_compiling_running"))
       "-Xfatal-warnings",
       "-Xmigration"
     )
-  )
+  )  .configure(fix)
+
 
 lazy val `chapter17-10` = (project in file("17_sbt/10_MainMethods"))
   .enablePlugins(ScalafmtPlugin)
@@ -184,7 +209,8 @@ lazy val `chapter17-10` = (project in file("17_sbt/10_MainMethods"))
 
 // remove the 'run' setting to make the definition less narrow
 // Compile / mainClass := Some("foo.bar.Baz")
-  )
+  )  .configure(fix)
+
 
 lazy val `chapter17-11` = (project in file("17_sbt/11_Assembly"))
   .enablePlugins(ScalafmtPlugin)
@@ -194,7 +220,8 @@ lazy val `chapter17-11` = (project in file("17_sbt/11_Assembly"))
     assembly / mainClass := Some("com.alvinalexander.myproject.Foo"),
     assembly / assemblyJarName := "MyApp.jar",
     assembly / test := {}
-  )
+  ) 
+  .configure(fix)
 
 
 lazy val `chapter17-12` = (project in file("17_sbt/12_Publishing"))
@@ -205,6 +232,7 @@ lazy val `chapter17-12` = (project in file("17_sbt/12_Publishing"))
     // "out" subdirectory
     publishTo := Some(Resolver.file("file", new File("./out")))
   )
+  .configure(fix)
 
 lazy val akkaVersion = "2.6.4"
 
@@ -221,6 +249,7 @@ lazy val `chapter18-akka` = (project in file("18_Concurrency_Futures/Akka_Exampl
     scalaVersion := "2.13.5" // 没有指定的默认是3.2.0
   )
   .dependsOn(`SimpleTest`)
+  .configure(fix)
 
 lazy val `chapter18-future` = (project in file("18_Concurrency_Futures/Future_Examples"))
   .enablePlugins(ScalafmtPlugin)
@@ -229,6 +258,7 @@ lazy val `chapter18-future` = (project in file("18_Concurrency_Futures/Future_Ex
 
 lazy val `chapter19` = (project in file("19_Web_Services"))
   .enablePlugins(ScalafmtPlugin)
+  .configure(fix)
 
 // Adds additional packages into Twirl
 //TwirlKeys.templateImports += "com.alvinalexander.controllers._"
@@ -242,7 +272,9 @@ lazy val `chapter19-1` = (project in file("19_Web_Services/01_Creating_Play_Proj
     name         := """hello-world""",
     libraryDependencies += guice,
     libraryDependencies += "org.scalatestplus.play" %% "scalatestplus-play" % "5.0.0" % Test
-  )
+  ) 
+  .configure(fix)
+
 
 lazy val `chapter19-2` = (project in file("19_Web_Services/02_Creating_New_Play_Endpoint/hello-world"))
   .enablePlugins(ScalafmtPlugin, PlayScala)
@@ -252,6 +284,8 @@ lazy val `chapter19-2` = (project in file("19_Web_Services/02_Creating_New_Play_
     libraryDependencies += guice,
     libraryDependencies += "org.scalatestplus.play" %% "scalatestplus-play" % "5.0.0" % Test
   )
+  .configure(fix)
+
 
 lazy val `chapter19-3` = (project in file("19_Web_Services/03_Returning_JSON_from_GET/hello-world"))
   .enablePlugins(ScalafmtPlugin, PlayScala)
@@ -261,6 +295,7 @@ lazy val `chapter19-3` = (project in file("19_Web_Services/03_Returning_JSON_fro
     libraryDependencies += guice,
     libraryDependencies += "org.scalatestplus.play" %% "scalatestplus-play" % "5.0.0" % Test
   )
+  .configure(fix)
 
 lazy val `chapter19-4` = (project in file("19_Web_Services/04_Serializing_Object_to_JSON"))
   .enablePlugins(ScalafmtPlugin)
@@ -282,6 +317,7 @@ lazy val `chapter19-4` = (project in file("19_Web_Services/04_Serializing_Object
       "-Xfatal-warnings"  // fail the compilation if there are any warnings
     )
   )
+  .configure(fix)
 
 lazy val `chapter19-5` = (project in file("19_Web_Services/05_Deserializing_JSON_to_Object"))
   .enablePlugins(ScalafmtPlugin)
@@ -300,6 +336,7 @@ lazy val `chapter19-5` = (project in file("19_Web_Services/05_Deserializing_JSON
       "-Xfatal-warnings"  // fail the compilation if there are any warnings
     )
   )
+  .configure(fix)
 
 lazy val `chapter19-6` = (project in file("19_Web_Services/06_Using_PlayJson_Without_Play"))
   .enablePlugins(ScalafmtPlugin)
@@ -321,6 +358,8 @@ lazy val `chapter19-6` = (project in file("19_Web_Services/06_Using_PlayJson_Wit
       "-Xfatal-warnings"  // fail the compilation if there are any warnings
     )
   )
+  .configure(fix)
+
 
 lazy val `chapter19-7` = (project in file("19_Web_Services/07_Using_sttp_HTTP_Client"))
   .enablePlugins(ScalafmtPlugin)
@@ -331,6 +370,7 @@ lazy val `chapter19-7` = (project in file("19_Web_Services/07_Using_sttp_HTTP_Cl
       "com.softwaremill.sttp.client3" %% "core" % "3.3.13"
     )
   )
+  .configure(fix)
 
 lazy val `chapter19-8` = (project in file("19_Web_Services/Bonus_SlowSocketServer"))
   .enablePlugins(ScalafmtPlugin)
@@ -347,14 +387,17 @@ lazy val `chapter19-8` = (project in file("19_Web_Services/Bonus_SlowSocketServe
       "-Xmigration"
     )
   )
+  .configure(fix)
 
 lazy val `chapter20` = (project in file("20_Spark"))
   .enablePlugins(ScalafmtPlugin)
   .dependsOn(`SimpleTest`)
+  .configure(fix)
 
 lazy val `chapter21` = (project in file("21_Scala.js_GraalVM_jpackage"))
   .enablePlugins(ScalafmtPlugin)
   .dependsOn(`SimpleTest`)
+  .configure(fix)
 
 lazy val `chapter21-1` = (project in file("21_Scala.js_GraalVM_jpackage/01_ScalaJs_GettingStarted"))
   .enablePlugins(ScalafmtPlugin)
@@ -366,6 +409,7 @@ lazy val `chapter21-1` = (project in file("21_Scala.js_GraalVM_jpackage/01_Scala
       ("org.scala-js" %%% "scalajs-dom" % "1.1.0").cross(CrossVersion.for3Use2_13)
   )
   .enablePlugins(ScalaJSPlugin)
+  .configure(fix)
 
 lazy val `chapter21-2` = (project in file("21_Scala.js_GraalVM_jpackage/02_ScalaJs_Events"))
   .enablePlugins(ScalafmtPlugin)
@@ -381,6 +425,7 @@ lazy val `chapter21-2` = (project in file("21_Scala.js_GraalVM_jpackage/02_Scala
     jsDependencies += "org.webjars" % "jquery" % "2.2.1" / "jquery.js" minified "jquery.min.js"
   )
   .enablePlugins(ScalaJSPlugin, JSDependenciesPlugin)
+  .configure(fix)
 
 lazy val `chapter21-3` = (project in file("21_Scala.js_GraalVM_jpackage/03_ScalaJs_SPA"))
   .enablePlugins(ScalafmtPlugin)
@@ -397,6 +442,7 @@ lazy val `chapter21-3` = (project in file("21_Scala.js_GraalVM_jpackage/03_Scala
     jsDependencies += "org.webjars" % "jquery" % "2.2.1" / "jquery.js" minified "jquery.min.js"
   )
   .enablePlugins(ScalaJSPlugin, JSDependenciesPlugin)
+  .configure(fix)
 
 lazy val `chapter21-4-1` = (project in file("21_Scala.js_GraalVM_jpackage/04_GraalVM/01_Sbtmkdirs"))
   .enablePlugins(ScalafmtPlugin)
@@ -415,6 +461,7 @@ lazy val `chapter21-4-1` = (project in file("21_Scala.js_GraalVM_jpackage/04_Gra
     )
   )
   .enablePlugins(NativeImagePlugin)
+  .configure(fix)
 
 lazy val `chapter21-4-2` = (project in file("21_Scala.js_GraalVM_jpackage/04_GraalVM/02_Bonus_HttpClient"))
   .enablePlugins(ScalafmtPlugin)
@@ -441,6 +488,7 @@ lazy val `chapter21-4-2` = (project in file("21_Scala.js_GraalVM_jpackage/04_Gra
       )
   )
   .enablePlugins(NativeImagePlugin)
+  .configure(fix)
 
 lazy val `chapter21-5` = (project in file("21_Scala.js_GraalVM_jpackage/05_jpackage"))
   .enablePlugins(ScalafmtPlugin)
@@ -449,19 +497,24 @@ lazy val `chapter21-5` = (project in file("21_Scala.js_GraalVM_jpackage/05_jpack
     name                 := "MySwingApp",
     Compile / run / fork := true
   )
+  .configure(fix)
 
 lazy val `chapter22` = (project in file("22_Java_Integration"))
   .enablePlugins(ScalafmtPlugin)
   .dependsOn(`SimpleTest`)
+  .configure(fix)
 
 lazy val `chapter23` = (project in file("23_Types"))
   .dependsOn(`SimpleTest`)
   .enablePlugins(ScalafmtPlugin)
+  .configure(fix)
 
 lazy val `chapter24` = (project in file("24_Best_Practices"))
   .dependsOn(`SimpleTest`)
   .enablePlugins(ScalafmtPlugin)
+  .configure(fix)
 
 lazy val `SimpleTest` = (project in file("SimpleTest"))
   .enablePlugins(ScalafmtPlugin)
   .settings(common)
+  .configure(fix)

@@ -8,17 +8,17 @@ package r01_curly_braces
 // approach is perfectly valid, and very clean.
 
 package com.acme.foo:
-    class Foo:
-        override def toString = "Foo"
+  class Foo:
+    override def toString = "Foo"
 
 package com.acme.bar:
-    import com.acme.foo.Foo
-    class Bar:
-        val foo = Foo()
+  import com.acme.foo.Foo
+  class Bar:
+    val foo = Foo()
 
 package com.acme.common:
-    import com.acme.bar.Bar
-    @main def multiPackageTest =
-        val b = Bar()
-        println(b.getClass)   // r01_curly_braces.com.acme.bar.Bar
-        println(b.foo)
+  import com.acme.bar.Bar
+  @main def multiPackageTest =
+    val b = Bar()
+    println(b.getClass) // r01_curly_braces.com.acme.bar.Bar
+    println(b.foo)

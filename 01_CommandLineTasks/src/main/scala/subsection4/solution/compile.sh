@@ -1,2 +1,0 @@
-scalac Hello.scala
-

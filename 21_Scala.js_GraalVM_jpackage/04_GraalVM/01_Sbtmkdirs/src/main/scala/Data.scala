@@ -2,7 +2,7 @@ package sbtmkdirs
 
 object Data {
 
-    val gitignoreString = """
+  val gitignoreString = """
         |bin/
         |target/
         |project/target/
@@ -26,12 +26,12 @@ object Data {
         |.idea
         """.stripMargin
 
-    def readmeData(projectName: String) =
-        s"""|# ${projectName}
+  def readmeData(projectName: String) =
+    s"""|# ${projectName}
             |
         """.stripMargin
 
-    def buildDotSbtData(projectName: String) =
+  def buildDotSbtData(projectName: String) =
     s"""|name := "$projectName"
         |version := "0.1"
         |scalaVersion := "2.13.2"
@@ -50,7 +50,5 @@ object Data {
         |    "-Xfatal-warnings"  //fail the compilation if there are any warnings
         |)
     """.stripMargin
-        
+
 }
-
-
