@@ -25,7 +25,4 @@ jobs:
         run: sbt compile
 
       - name: Checking Scalafmt
-        run: sbt scalafixAll
-
-      - name: Checking Scalafix
-        run: sbt scalafixAll
+        run: sbt scalafmtAll
