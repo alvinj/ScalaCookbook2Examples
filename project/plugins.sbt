@@ -1,5 +1,5 @@
 addSbtPlugin("org.scalameta" % "sbt-scalafmt" % "2.4.6")
-addSbtPlugin("ch.epfl.scala" % "sbt-scalafix" % "0.9.15")
+addSbtPlugin("ch.epfl.scala" % "sbt-scalafix" % "0.10.2")
 addSbtPlugin("org.scala-js" % "sbt-scalajs" % "1.11.0")
 addSbtPlugin("org.scala-js" % "sbt-jsdependencies" % "1.0.2")
 addSbtPlugin("org.scalameta" % "sbt-native-image" % "0.3.1")

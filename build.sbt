@@ -58,13 +58,12 @@ lazy val ScalaCookbook2Examples = (project in file("."))
     `SimpleTest`
   )
 
-
 lazy val fix: Project => Project =
-    _.settings(
-      semanticdbEnabled := true, // enable SemanticDB
-      semanticdbVersion := scalafixSemanticdb.revision
-    )
-    
+  _.settings(
+    semanticdbEnabled := true, // enable SemanticDB
+    semanticdbVersion := scalafixSemanticdb.revision
+  )
+
 lazy val common =
   scalacOptions ++= Seq(
     "-deprecation",     // emit warning and location for usages of deprecated APIs
@@ -90,12 +89,10 @@ lazy val `chapter2` = (project in file("02_Strings"))
   .dependsOn(`SimpleTest`)
   .configure(fix)
 
-
 lazy val `chapter3` = (project in file("03_NumbersAndDates"))
   .enablePlugins(ScalafmtPlugin)
   .dependsOn(`SimpleTest`)
   .configure(fix)
-
 
 lazy val `chapter4` = (project in file("04_ControlStructures"))
   .enablePlugins(ScalafmtPlugin)
@@ -189,8 +186,8 @@ lazy val `chapter17-4` = (project in file("17_sbt/04_compiling_running"))
       "-Xfatal-warnings",
       "-Xmigration"
     )
-  )  .configure(fix)
-
+  )
+  .configure(fix)
 
 lazy val `chapter17-10` = (project in file("17_sbt/10_MainMethods"))
   .enablePlugins(ScalafmtPlugin)
@@ -209,20 +206,19 @@ lazy val `chapter17-10` = (project in file("17_sbt/10_MainMethods"))
 
 // remove the 'run' setting to make the definition less narrow
 // Compile / mainClass := Some("foo.bar.Baz")
-  )  .configure(fix)
-
+  )
+  .configure(fix)
 
 lazy val `chapter17-11` = (project in file("17_sbt/11_Assembly"))
   .enablePlugins(ScalafmtPlugin)
   .settings(
-    name := "MyProject",
-    version := "0.1.0",
-    assembly / mainClass := Some("com.alvinalexander.myproject.Foo"),
+    name                       := "MyProject",
+    version                    := "0.1.0",
+    assembly / mainClass       := Some("com.alvinalexander.myproject.Foo"),
     assembly / assemblyJarName := "MyApp.jar",
-    assembly / test := {}
-  ) 
+    assembly / test            := {}
+  )
   .configure(fix)
-
 
 lazy val `chapter17-12` = (project in file("17_sbt/12_Publishing"))
   .enablePlugins(ScalafmtPlugin)
@@ -246,7 +242,7 @@ lazy val `chapter18-akka` = (project in file("18_Concurrency_Futures/Akka_Exampl
       "com.typesafe.akka" %% "akka-actor-testkit-typed" % akkaVersion % Test,
       "org.scalatest"     %% "scalatest"                % "3.1.0"     % Test
     ),
-    scalaVersion := "2.13.5" // 没有指定的默认是3.2.0
+    scalaVersion := "2.13.9" // 没有指定的默认是3.2.0
   )
   .dependsOn(`SimpleTest`)
   .configure(fix)
@@ -268,30 +264,28 @@ lazy val `chapter19` = (project in file("19_Web_Services"))
 lazy val `chapter19-1` = (project in file("19_Web_Services/01_Creating_Play_Project/hello-world"))
   .enablePlugins(ScalafmtPlugin, PlayScala)
   .settings(
-    scalaVersion := "2.13.6",
+    scalaVersion := "2.13.9",
     name         := """hello-world""",
-    libraryDependencies += guice,
-    libraryDependencies += "org.scalatestplus.play" %% "scalatestplus-play" % "5.0.0" % Test
-  ) 
-  .configure(fix)
-
-
-lazy val `chapter19-2` = (project in file("19_Web_Services/02_Creating_New_Play_Endpoint/hello-world"))
-  .enablePlugins(ScalafmtPlugin, PlayScala)
-  .settings(
-    name         := """hello-world""",
-    scalaVersion := "2.13.6",
     libraryDependencies += guice,
     libraryDependencies += "org.scalatestplus.play" %% "scalatestplus-play" % "5.0.0" % Test
   )
   .configure(fix)
 
+lazy val `chapter19-2` = (project in file("19_Web_Services/02_Creating_New_Play_Endpoint/hello-world"))
+  .enablePlugins(ScalafmtPlugin, PlayScala)
+  .settings(
+    name         := """hello-world""",
+    scalaVersion := "2.13.9",
+    libraryDependencies += guice,
+    libraryDependencies += "org.scalatestplus.play" %% "scalatestplus-play" % "5.0.0" % Test
+  )
+  .configure(fix)
 
 lazy val `chapter19-3` = (project in file("19_Web_Services/03_Returning_JSON_from_GET/hello-world"))
   .enablePlugins(ScalafmtPlugin, PlayScala)
   .settings(
     name         := """hello-world""",
-    scalaVersion := "2.13.6",
+    scalaVersion := "2.13.9",
     libraryDependencies += guice,
     libraryDependencies += "org.scalatestplus.play" %% "scalatestplus-play" % "5.0.0" % Test
   )
@@ -301,7 +295,7 @@ lazy val `chapter19-4` = (project in file("19_Web_Services/04_Serializing_Object
   .enablePlugins(ScalafmtPlugin)
   .settings(
     name         := "PlayJsonWithoutPlay",
-    scalaVersion := "2.13.5",
+    scalaVersion := "2.13.9",
     libraryDependencies ++= Seq(
       "com.typesafe.play"             %% "play-json" % "2.9.1",
       "com.softwaremill.sttp.client3" %% "core"      % "3.2.3"
@@ -323,7 +317,7 @@ lazy val `chapter19-5` = (project in file("19_Web_Services/05_Deserializing_JSON
   .enablePlugins(ScalafmtPlugin)
   .settings(
     name         := "PlayJsonWithoutPlay",
-    scalaVersion := "2.13.5",
+    scalaVersion := "2.13.9",
     libraryDependencies ++= Seq(
       "com.typesafe.play" %% "play-json" % "2.9.1"
     ),
@@ -342,7 +336,7 @@ lazy val `chapter19-6` = (project in file("19_Web_Services/06_Using_PlayJson_Wit
   .enablePlugins(ScalafmtPlugin)
   .settings(
     name         := "PlayJsonWithoutPlay",
-    scalaVersion := "2.13.5",
+    scalaVersion := "2.13.9",
     libraryDependencies ++= Seq(
       "com.typesafe.play"             %% "play-json" % "2.9.1",
       "com.softwaremill.sttp.client3" %% "core"      % "3.2.3"
@@ -359,7 +353,6 @@ lazy val `chapter19-6` = (project in file("19_Web_Services/06_Using_PlayJson_Wit
     )
   )
   .configure(fix)
-
 
 lazy val `chapter19-7` = (project in file("19_Web_Services/07_Using_sttp_HTTP_Client"))
   .enablePlugins(ScalafmtPlugin)
