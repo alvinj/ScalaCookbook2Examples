@@ -8,19 +8,16 @@ import play.api.libs.json._
 import models.Movie
 
 @Singleton
-class MovieController @Inject()(val controllerComponents: ControllerComponents)
-extends BaseController {
+class MovieController @Inject() (val controllerComponents: ControllerComponents) extends BaseController {
 
-    /**
-     * Let Play convert the `List[String]` to JSON for you.
-     */
-    def getMovies = Action {
-        // these three steps are shown explicitly so you
-        // can see the types:
-        val goodMovies: Seq[String] = Movie.goodMovies()
-        val json: JsValue = Json.toJson(goodMovies)
-        Ok(json)
-    }
+  /** Let Play convert the `List[String]` to JSON for you.
+   */
+  def getMovies = Action {
+    // these three steps are shown explicitly so you
+    // can see the types:
+    val goodMovies: Seq[String] = Movie.goodMovies()
+    val json: JsValue           = Json.toJson(goodMovies)
+    Ok(json)
+  }
 
 }
-
