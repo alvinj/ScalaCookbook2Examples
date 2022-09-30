@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        java-version: [ 11 ]
+        java-version: [ 8 ]
     steps:
       - uses: actions/checkout@v2
       - name: Set up JDK
@@ -23,6 +23,9 @@ jobs:
 
       - name: Build
         run: sbt compile
+
+      - name: Checking Scalafmt
+        run: sbt scalafixAll
 
       - name: Checking Scalafix
         run: sbt scalafixAll

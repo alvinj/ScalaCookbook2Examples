@@ -14,9 +14,9 @@ package t1 {
 // p. 147
 package t2 {
   // a private constructor that takes no parameters
-  class Brain private:
+  class Brain private {
     override def toString = "This is the brain."
-
+  }
   object Brain:
     val brain       = Brain()
     def getInstance = brain

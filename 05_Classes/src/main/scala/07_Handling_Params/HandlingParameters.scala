@@ -45,12 +45,12 @@ package t3 {
 
   @main def test =
     val e = Employee("Joe", 33)
-    e
+//    e
     Equals(e.toString, "Joe is 33")
 
     // update and verify the name and age fields
     e.name = "Fred"
     e.age = 34
-    e // "Fred is 34 years old"
+    // e // "Fred is 34 years old"
     Equals(e.name, "Fred")
 }
