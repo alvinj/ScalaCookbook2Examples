@@ -25,4 +25,4 @@ jobs:
         run: sbt compile
 
       - name: Checking Scalafmt
-        run: sbt scalafmtAll
+        run: sbt scalafmtCheckAll scalafmtSbtCheck
